@@ -2,13 +2,12 @@ package pe.maldonado.algorithms.sort;
 
 public class InsertionSort {
 
-	static void sort(int a[]) {
+	public static void sort(int a[], int start, int end) {
 		
 		int i, j, temp;
-		int l = a.length;
 		
-		for (i = 1; i < l; i++) {
-			for (j = i; j > 0; j--) {
+		for (i = start + 1; i < end; i++) {
+			for (j = i; j > start; j--) {
 				if (a[j] < a[j-1]) {
 					temp = a[j-1];
 					a[j-1] = a[j];
@@ -17,6 +16,10 @@ public class InsertionSort {
 			}
 		}
 
+	}
+	
+	public static void sort(int a[]) {
+		sort(a, 0, a.length);
 	}
 	
 	public static void main(String[] args) {
