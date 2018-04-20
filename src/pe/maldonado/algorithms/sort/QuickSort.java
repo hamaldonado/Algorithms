@@ -4,51 +4,65 @@ import java.util.Scanner;
 
 public class QuickSort {
 
-	static void sort(int a[]) {
-		partition(a, 0, a.length - 1);
+	public static void sort(int a[]) {
+		sort(a, 0, a.length - 1);
 	}
 	
-	static void partition(int a[], int start, int end) {
+	public static void sort(int a[], int start, int end) {
+
+		if (start < end) {
+
+			// Partition and get the position of the pivot
+			int p = partition (a, start, end);
+			
+			// sort 'less than' sector
+			sort(a, start, p - 1);
+			
+			// sort 'greater than' sector
+			sort(a, p + 1, end);
 		
-		// has reached maximum level of recursion?
-		if (end <= start) { 
-			return;
 		}
-		
-		int temp;
+
+	}
+	
+	// Hoare's partition algorithm
+	static int partition(int a[], int start, int end) {
+	
 		int p = start; 
 		int lt = start + 1;
 		int gt = end;
 		
-		while (true) {
-		
-			while (lt <= end  && a[lt] < a[p]) {
+		while (lt <= gt) {
+			
+			while (lt <= end && a[lt] < a[p]) { 
 				lt++;
 			}
-
-			while (gt > start && a[gt] > a[p]) {
+	
+			while (a[gt] > a[p]) {
 				gt--;
 			}
 			
-			if (lt < gt) {
-				temp = a[lt];
-				a[lt] = a[gt];
-				a[gt] = temp;
+			if (lt <= gt) {
+				// swap 'greater than' element with the 'less than' element 
+				swap(a, lt, gt);
+				
+				lt++;
+				gt--;
 			}
-			else {
-				temp = a[gt];
-				a[gt] = a[p];
-				a[p] = temp;
-				break;
-			}
+
 		}
 		
-		// less than sector
-		partition(a, start, gt - 1);
+		// Put the pivot in its final position
+		swap(a, p, gt);
 		
-		// greater than sector
-		partition(a, gt + 1, end);
-
+		return gt;
+		
+	}
+	
+	static void swap(int[] a, int i, int j) {
+		int temp = a[i];
+		a[i] = a[j];
+		a[j] = temp;
 	}
 	
 	public static void main(String[] args) {
