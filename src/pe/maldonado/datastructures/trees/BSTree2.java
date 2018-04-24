@@ -1,6 +1,8 @@
 package pe.maldonado.datastructures.trees;
 
-// Binary Search Tree (versión recursiva)
+import java.util.Scanner;
+
+// Binary Search Tree 2 (recursive version)
 
 public class BSTree2 {
 	
@@ -30,9 +32,6 @@ public class BSTree2 {
 		nodeCount = 0;
 	}
 	
-	// --------------------------------------------------------------------------------
-	// ** Inserción **
-	// --------------------------------------------------------------------------------
 	public void addItem(int key, int value) {
 		root = addNode(root, key, value);
 	}
@@ -59,12 +58,7 @@ public class BSTree2 {
 		return currentNode;
 			
 	}
-	// --------------------------------------------------------------------------------
 	
-	
-	// --------------------------------------------------------------------------------
-	// ** Busqueda **
-	// --------------------------------------------------------------------------------
 	public int findItem(int key) {
 		
 		Node foundNode = findNode(root, key);
@@ -91,7 +85,6 @@ public class BSTree2 {
 		
 		return currentNode;
 	}
-	// --------------------------------------------------------------------------------
 	
 	public void removeItem(int key) {
 		root = removeNode(root, key);
@@ -173,6 +166,10 @@ public class BSTree2 {
 		traverseTree(root); 
 	}
 	
+	public String toString() {
+		return drawTree(root);
+	}
+	
 	private void traverseTree(Node currentNode) {
 		
 		if (currentNode.left != null)
@@ -184,4 +181,63 @@ public class BSTree2 {
 			traverseTree(currentNode.right);
 
 	}
+	
+	private String drawTree(Node currentNode) {
+		
+		if (currentNode == null) {
+			return new String("nil");
+		}
+
+		StringBuilder sb = new StringBuilder(Integer.toString(currentNode.value));
+		
+		sb.append("(");
+		sb.append(drawTree(currentNode.left));
+		sb.append(", ");
+		sb.append(drawTree(currentNode.right));
+		sb.append(")");
+		
+		return sb.toString();
+	}
+	
+	public static void main(String[] args) {
+		
+		BSTree tree = new BSTree();
+		Scanner in = new Scanner(System.in);
+		
+		int n, k, v;
+		
+		n = in.nextInt();
+		
+		for (int i = 0; i < n; i++) {
+
+			k = in.nextInt();
+			v = in.nextInt();
+			
+			tree.addItem(k, v);
+			
+		}
+				
+	    System.out.println("Press Enter to print the tree..");
+		in.nextLine();
+		   
+		System.out.println(tree.toString());
+		
+		in.close();
+		
+		
+		/*
+		Test Data:
+		8
+		1 10
+		2 20
+		3 30
+		4 40
+		5 50
+		6 60
+		7 70
+		8 80
+		*/
+		
+	}
+
 }
