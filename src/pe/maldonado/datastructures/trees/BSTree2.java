@@ -223,8 +223,7 @@ public class BSTree2 {
 		System.out.println(tree.toString());
 		
 		in.close();
-		
-		
+				
 		/*
 		Test Data:
 		8
