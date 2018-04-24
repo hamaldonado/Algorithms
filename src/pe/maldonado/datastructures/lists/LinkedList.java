@@ -10,57 +10,80 @@ public class LinkedList <T> {
 	class LinkedListIterator implements ListIterator<T> {
     
     	private Node currentNode = null;
+    	private int index = -1;
 
         @Override
         public boolean hasNext() {
             return currentNode != tail;
         }
-
+        
         @Override
-        public T next() {
-            if (currentNode == null) {
-                currentNode = head;
-                return currentNode.value;
-            }
-            if (currentNode.next == null) {
-                throw new NoSuchElementException();
-            }
-            
-            currentNode = currentNode.next;
-            
-            return currentNode.value;
-        }
-
-		@Override
-		public void add(T value) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
 		public boolean hasPrevious() {
-			// TODO Auto-generated method stub
 			return currentNode != head;
 		}
 
-		@Override
+        @Override
 		public int nextIndex() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public T previous() {
-			// TODO Auto-generated method stub
-			return null;
+			return index + 1;
 		}
 
 		@Override
 		public int previousIndex() {
-			// TODO Auto-generated method stub
-			return 0;
+			return index < 0 ? -1 : index - 1;
+		}
+        
+        @Override
+        public T next() {
+            
+        	// We have reached the end of the list or the list 
+        	// is empty (in the case of tail == null) 
+            if (currentNode == tail) {
+                throw new NoSuchElementException();
+            }
+            
+            // is the first call to next()?
+            if (currentNode == null && head != null) {
+                currentNode = head;
+            }
+            else {
+            	currentNode = currentNode.next;
+            }
+            
+            index++;
+            return currentNode.value;
+        }
+        
+        @Override
+		public T previous() {
+			
+			// We have reached the beginning of the list or the list 
+			// is empty (in the case of head == null) 
+            if (currentNode == head) {
+                throw new NoSuchElementException();
+            }
+            else {
+            	currentNode = currentNode.prev;
+            }
+            
+            index--;
+            return currentNode.value;
 		}
 
+		@Override
+		public void add(T value) {
+			
+			Node newNode = new Node(value);
+			
+			// add at first position
+			if (currentNode == null) {
+				insertNode(head, newNode);
+			}
+			// add somewhere else
+			else {
+				insertNode(currentNode.next, newNode);
+			}
+		}
+		
 		@Override
 		public void remove() {
 			// TODO Auto-generated method stub
@@ -100,6 +123,11 @@ public class LinkedList <T> {
 		Node currentNode;
 		int i;
 		
+		// Empty list? index out of bounds?
+		if (head == null || index < 0 || index >= nodeCount) {
+			return null;
+		}
+		
 		// If index is on the 1st half, move the cursor forward from the 
 		// head node to the middle. 
 		if (index <= nodeCount / 2) {
@@ -127,15 +155,8 @@ public class LinkedList <T> {
 		return currentNode;
 	}
 	
-	public void add(T value) {
-		insert(value, nodeCount);
-	}
-	
-	public void insert(T value, int index) {
+	private void insertNode(Node currentNode, Node newNode) {
 		
-		Node newNode = new Node(value);
-		Node currentNode;
-				
 		// empty list? 
 		if (head == null) {
 			head = newNode;
@@ -143,32 +164,41 @@ public class LinkedList <T> {
 		}
 		
 		// insert at first position
-		else if (index == 0) {	
+		else if (currentNode == head) {	
 			newNode.next = head;
 			head.prev = newNode;
 			head = newNode;
 		}
 		
 		// insert at last position
-		else if (index >= nodeCount) {	
+		else if (currentNode == null) {	
 			tail.next = newNode;
 			newNode.prev = tail;
 			tail = newNode;
 		}
 		
 		// insert anywhere in between
-		else {			
-
-			// move to the desired position
-			currentNode = findNode(index);
-			
+		else {
 			newNode.prev = currentNode.prev;
 			newNode.next = currentNode;
 			currentNode.prev.next = newNode;
 			currentNode.prev = newNode;
 		}
-
+		
 		nodeCount++;
+	}
+	
+	public void add(T value) {
+		insert(value, nodeCount);
+	}
+	
+	public void insert(T value, int index) {
+		
+		Node newNode = new Node(value);
+		Node currentNode = findNode(index);
+
+		insertNode(currentNode, newNode);
+
 	}
 		
 	public boolean remove(int index) {
