@@ -1,5 +1,8 @@
 package pe.maldonado.datastructures.trees;
 
+import java.io.File;
+import java.util.Scanner;
+
 public class Trie {
 	
 	private static final int ALPHABET_SIZE = 27;
@@ -139,27 +142,51 @@ public class Trie {
 		
 		return sb.toString();
 	}
-
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
 		Trie trie = new Trie();
-				
-		trie.addWord("analuz");
-		trie.addWord("ana");
-		trie.addWord("anita");
-		trie.addWord("anahi");
-		trie.addWord("anamaria");
-		trie.addWord("anastasia");
-		trie.addWord("anilu");
-		trie.addWord("alondra");
-		trie.addWord("alfonsina");
-		trie.addWord("alessia");
-				
+		Scanner in = new Scanner(System.in);
+		
+		System.out.println("Press Enter to start loading..");
+		in.nextLine();
+		
+		try {
+			File file = new File("d:\\female.txt");
+		    Scanner inFile = new Scanner(file);
+		    
+		    while (inFile.hasNextLine()) {
+		    	
+		    	trie.addWord(inFile.nextLine());
+		    	
+		    }
+		    
+		    inFile.close();
+		}
+		catch (Exception e) {
+			System.out.println("File IO Error.." + e.toString());
+			System.exit(0);
+		}
+	    		
+	    System.out.println("Press Enter to print the trie..");
+		in.nextLine();
+		   
 		System.out.println(trie.toString());
-		System.out.println(trie.startsWith("al"));
+		
+		
+		System.out.println("Please enter some letters to search or 'exit' to abandon..");
+		
+		String prefix;
+		
+		while ((prefix = in.nextLine()).compareTo("exit") != 0) {
+		
+			System.out.println("Result:" + trie.startsWith(prefix));
+			
+		}
+
+		in.close();
 		
 	}
+	
 
 }
