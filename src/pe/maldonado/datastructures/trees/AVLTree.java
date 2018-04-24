@@ -1,5 +1,8 @@
 package pe.maldonado.datastructures.trees;
 
+import java.io.File;
+import java.util.Scanner;
+
 public class AVLTree {
 	
 	private class Node {
@@ -425,10 +428,6 @@ public class AVLTree {
 
 		StringBuilder sb = new StringBuilder(Integer.toString(currentNode.value));
 		
-		/*sb.append("<");
-		sb.append(Integer.toString(currentNode.height));
-		sb.append(">");*/
-		
 		sb.append("(");
 		sb.append(drawTree(currentNode.left));
 		sb.append(", ");
@@ -437,5 +436,47 @@ public class AVLTree {
 		
 		return sb.toString();
 	}
+	
+	public static void main(String[] args) {
+		
+		AVLTree tree = new AVLTree();
+		Scanner in = new Scanner(System.in);
+		
+		int n, k, v;
+		
+		n = in.nextInt();
+		
+		for (int i = 0; i < n; i++) {
+
+			k = in.nextInt();
+			v = in.nextInt();
+			
+			tree.addItem(k, v);
+			
+		}
+				
+	    System.out.println("Press Enter to print the tree..");
+		in.nextLine();
+		   
+		System.out.println(tree.toString());
+		
+		in.close();
+		
+		
+		/*
+		Test Data:
+		8
+		1 10
+		2 20
+		3 30
+		4 40
+		5 50
+		6 60
+		7 70
+		8 80
+		*/
+		
+	}
+	
 
 }
