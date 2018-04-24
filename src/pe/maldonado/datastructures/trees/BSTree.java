@@ -1,5 +1,7 @@
 package pe.maldonado.datastructures.trees;
 
+import java.util.Scanner;
+
 // Binary Search Tree
 
 public class BSTree {
@@ -195,6 +197,10 @@ public class BSTree {
 		traverseTree(root); 
 	}
 	
+	public String toString() {
+		return drawTree(root);
+	}
+		
 	private void traverseTree(Node currentNode) {
 		
 		if (currentNode.left != null)
@@ -205,6 +211,64 @@ public class BSTree {
 		if (currentNode.right != null)
 			traverseTree(currentNode.right);
 
+	}
+	
+	private String drawTree(Node currentNode) {
+		
+		if (currentNode == null) {
+			return new String("nil");
+		}
+
+		StringBuilder sb = new StringBuilder(Integer.toString(currentNode.value));
+		
+		sb.append("(");
+		sb.append(drawTree(currentNode.left));
+		sb.append(", ");
+		sb.append(drawTree(currentNode.right));
+		sb.append(")");
+		
+		return sb.toString();
+	}
+	
+	public static void main(String[] args) {
+		
+		BSTree tree = new BSTree();
+		Scanner in = new Scanner(System.in);
+		
+		int n, k, v;
+		
+		n = in.nextInt();
+		
+		for (int i = 0; i < n; i++) {
+
+			k = in.nextInt();
+			v = in.nextInt();
+			
+			tree.addItem(k, v);
+			
+		}
+				
+	    System.out.println("Press Enter to print the tree..");
+		in.nextLine();
+		   
+		System.out.println(tree.toString());
+		
+		in.close();
+		
+		
+		/*
+		Test Data:
+		8
+		1 10
+		2 20
+		3 30
+		4 40
+		5 50
+		6 60
+		7 70
+		8 80
+		*/
+		
 	}
 
 }
