@@ -22,6 +22,7 @@ public class BSTree2 {
 	
 	private Node root;
 	private int nodeCount;
+	private int arrayIndex;
 	
 	public int count() {
 		return nodeCount;
@@ -181,7 +182,7 @@ public class BSTree2 {
 			traverseTree(currentNode.right);
 
 	}
-	
+		
 	private String drawTree(Node currentNode) {
 		
 		if (currentNode == null) {
@@ -199,9 +200,63 @@ public class BSTree2 {
 		return sb.toString();
 	}
 	
+	public void toArray(int[] a) {
+		arrayIndex = 0;
+		toArray (a, root);
+	}
+		
+	private void toArray(int[] a, Node currentNode) {
+		
+		if (currentNode.left != null)
+			toArray(a, currentNode.left);
+		
+		a[arrayIndex++] = currentNode.value;
+		
+		if (currentNode.right != null)
+			toArray(a, currentNode.right);
+
+	}
+	
+	private int lastNode; 
+	
+	public boolean checkBST(Node currentNode) {
+		
+		lastNode = -1;
+		return checkBST2(currentNode);
+		
+	}
+	
+	private boolean checkBST2(Node n) {
+						
+		if (n.left != null) {
+			if (n.left.value > n.value) {
+				return false;
+			}
+		}
+		
+		else if (n.right != null) {
+			if (n.value > n.right.value) {
+				return false;
+			}
+		}
+		
+		else {
+			return true;
+		}
+		
+		if (!checkBST2(n.left) || !checkBST2(n.left)) {
+			return false;
+		}
+		
+		return true;
+		
+	}
+	
+	
+	
 	public static void main(String[] args) {
 		
-		BSTree tree = new BSTree();
+		BSTree2 tree = new BSTree2();
 		Scanner in = new Scanner(System.in);
 		
 		int n, k, v;
@@ -221,6 +276,14 @@ public class BSTree2 {
 		in.nextLine();
 		   
 		System.out.println(tree.toString());
+		
+		int[] a = new int[n];
+		
+		tree.toArray(a);
+		
+		for (int i = 0; i < n; i++) {
+			System.out.print(a[i] + " ");
+		}
 		
 		in.close();
 				
